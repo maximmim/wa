@@ -31,22 +31,24 @@
     const contextLeft = canvasLeft.getContext('2d');
     const contextRight = canvasRight.getContext('2d');
 
-    // Получаем видеопоток с веб-камеры
-    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-        .then(function (stream) {
+    async function setupCamera() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
             const video = document.createElement('video');
             video.srcObject = stream;
-            video.autoplay = true;
-
-            video.onloadedmetadata = function (e) {
-                canvasLeft.width = canvasRight.width = video.videoWidth;
-                canvasLeft.height = canvasRight.height = video.videoHeight;
-                drawFrames(video);
-            };
-        })
-        .catch(function (error) {
+            await video.play();
+            canvasLeft.width = canvasRight.width = video.videoWidth;
+            canvasLeft.height = canvasRight.height = video.videoHeight;
+            return video;
+        } catch (error) {
             console.error('Ошибка при доступе к веб-камере: ' + error);
-        });
+        }
+    }
+
+    async function loadCamera() {
+        const video = await setupCamera();
+        drawFrames(video);
+    }
 
     function drawFrames(video) {
         contextLeft.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
@@ -55,7 +57,9 @@
         contextLeft.drawImage(video, 0, 0, canvasLeft.width, canvasLeft.height);
         contextRight.drawImage(video, 0, 0, canvasRight.width, canvasRight.height);
         requestAnimationFrame(() => drawFrames(video));
-    };
+    }
+
+    loadCamera();
 </script>
 </body>
 </html>

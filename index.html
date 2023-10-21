@@ -39,6 +39,7 @@
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
         .then(function (stream) {
             video.srcObject = stream;
+            alert(123)
         })
         .catch(function (error) {
             console.error('Ошибка при доступе к веб-камере: ' + error);
@@ -54,7 +55,7 @@
         // Очищаем канвас перед каждой отрисовкой
         contextLeft.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
         contextRight.clearRect(0, 0, canvasRight.width, canvasRight.height);
-        alert(123)
+        
         contextLeft.drawImage(video, 0, 0, canvasLeft.width, canvasLeft.height);
         contextRight.drawImage(video, 0, 0, canvasRight.width, canvasRight.height);
         requestAnimationFrame(drawFrames);

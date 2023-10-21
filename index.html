@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Вывод изображения на экран в реальном времени</title>
+
+  <content-security-policy>
+
+    default-src 'self';
+
+
+    script-src 'self';
+  </content-security-policy>
+</head>
+<body>
+  <video id="video" width="640" height="480"></video>
+
+  <script>
+    // Запрашиваем доступ к камере у пользователя.
+    navigator.mediaDevices.getUserMedia({video: true, audio: false})
+      .then((stream) => {
+        // Получаем поток видео с камеры.
+        const video = document.querySelector("#video");
+        video.srcObject = stream;
+
+        // Отображаем видео с камеры на экране.
+        video.play();
+      })
+      .catch((error) => {
+        // Обрабатываем ошибку.
+      });
+  </script>
+</body>
+</html>

@@ -4,7 +4,8 @@
     <title>Веб-камера и Canvas</title>
     <link rel="manifest" href="/manifest.json">
 </head>
-<body><style>
+<body>
+<style>
     #canvas-left {
         position: absolute;
         left: 0px;
@@ -19,43 +20,42 @@
         width: 50%;
         height: 100%;
     }
-    </style>
-    <div id="canvas-container">
-        <canvas id="canvas-left"></canvas>
-        <canvas id="canvas-right"></canvas>
-    </div>
-    <script>
-        const canvasLeft = document.getElementById('canvas-left');
-        const canvasRight = document.getElementById('canvas-right');
-        const contextLeft = canvasLeft.getContext('2d');
-        const contextRight = canvasRight.getContext('2d');
+</style>
+<div id="canvas-container">
+    <canvas id="canvas-left"></canvas>
+    <canvas id="canvas-right"></canvas>
+</div>
+<script>
+    const canvasLeft = document.getElementById('canvas-left');
+    const canvasRight = document.getElementById('canvas-right');
+    const contextLeft = canvasLeft.getContext('2d');
+    const contextRight = canvasRight.getContext('2d');
 
-        const video = document.createElement('video');
-        video.autoplay = true;
+    const video = document.createElement('video');
+    video.autoplay = true;
 
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then(function (stream) {
-                video.srcObject = stream;
-            })
-            .catch(function (error) {
-                console.error('Ошибка при доступе к веб-камере: ' + error);
-            });
+    // Используем facingMode, чтобы всегда использовать основную камеру (не фронтальную)
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+        .then(function (stream) {
+            video.srcObject = stream;
+        })
+        .catch(function (error) {
+            console.error('Ошибка при доступе к веб-камере: ' + error);
+        });
 
-     
-         
-        video.onloadedmetadata = function (e) {
-            canvasLeft.width = video.videoWidth;
-            canvasLeft.height = video.videoHeight;
-            canvasLeft.width = video.videoWidth;
-            canvasLeft.height = video.videoHeight;
-            drawFrames();
-        };
+    video.onloadedmetadata = function (e) {
+        canvasLeft.width = video.videoWidth;
+        canvasLeft.height = video.videoHeight;
+        canvasLeft.width = video.videoWidth;
+        canvasLeft.height = video.videoHeight;
+        drawFrames();
+    };
 
-        function drawFrames() {
-            contextLeft.drawImage(video, 0, 0, canvasLeft.width, canvasLeft.height);
-            contextRight.drawImage(video, 0, 0, canvasRight.width, canvasRight.height);
-            requestAnimationFrame(drawFrames);
-        }
-    </script>
+    function drawFrames() {
+        contextLeft.drawImage(video, 0, 0, canvasLeft.width, canvasLeft.height);
+        contextRight.drawImage(video, 0, 0, canvasRight.width, canvasRight.height);
+        requestAnimationFrame(drawFrames);
+    }
+</script>
 </body>
 </html>

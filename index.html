@@ -48,9 +48,9 @@
         canvasLeft.height = video.videoHeight;
         canvasRight.width = video.videoWidth;
         canvasRight.height = video.videoHeight;
-       setInterval(drawFrames,1);
+       
     };
-
+setInterval(drawFrames,1);
     function drawFrames() {
         contextLeft.drawImage(video, 0, 0, canvasLeft.width, canvasLeft.height);
         contextRight.drawImage(video, 0, 0, canvasRight.width, canvasRight.height);

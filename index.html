@@ -46,8 +46,8 @@
     video.onloadedmetadata = function (e) {
         canvasLeft.width = video.videoWidth;
         canvasLeft.height = video.videoHeight;
-        canvasLeft.width = video.videoWidth;
-        canvasLeft.height = video.videoHeight;
+        canvasRight.width = video.videoWidth;
+        canvasRight.height = video.videoHeight;
         drawFrames();
     };
 

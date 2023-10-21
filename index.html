@@ -31,34 +31,30 @@
     const contextLeft = canvasLeft.getContext('2d');
     const contextRight = canvasRight.getContext('2d');
 
-    const video = document.createElement('video');
-    video.autoplay = true;
-
-
-
+    // Получаем видеопоток с веб-камеры
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
         .then(function (stream) {
+            const video = document.createElement('video');
             video.srcObject = stream;
-            alert(123)
+            video.autoplay = true;
+
+            video.onloadedmetadata = function (e) {
+                canvasLeft.width = canvasRight.width = video.videoWidth;
+                canvasLeft.height = canvasRight.height = video.videoHeight;
+                drawFrames(video);
+            };
         })
         .catch(function (error) {
             console.error('Ошибка при доступе к веб-камере: ' + error);
         });
 
-    video.onloadedmetadata = function (e) {
-        canvasLeft.width = canvasRight.width = video.videoWidth;
-        canvasLeft.height = canvasRight.height = video.videoHeight;
-        drawFrames();
-    };
-
-    function drawFrames() {
-        // Очищаем канвас перед каждой отрисовкой
+    function drawFrames(video) {
         contextLeft.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
         contextRight.clearRect(0, 0, canvasRight.width, canvasRight.height);
         
         contextLeft.drawImage(video, 0, 0, canvasLeft.width, canvasLeft.height);
         contextRight.drawImage(video, 0, 0, canvasRight.width, canvasRight.height);
-        requestAnimationFrame(drawFrames);
+        requestAnimationFrame(() => drawFrames(video));
     };
 </script>
 </body>

@@ -34,6 +34,8 @@
     const video = document.createElement('video');
     video.autoplay = true;
 
+
+
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
         .then(function (stream) {
             video.srcObject = stream;
@@ -52,7 +54,7 @@
         // Очищаем канвас перед каждой отрисовкой
         contextLeft.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
         contextRight.clearRect(0, 0, canvasRight.width, canvasRight.height);
-        
+        alert(123)
         contextLeft.drawImage(video, 0, 0, canvasLeft.width, canvasLeft.height);
         contextRight.drawImage(video, 0, 0, canvasRight.width, canvasRight.height);
         requestAnimationFrame(drawFrames);

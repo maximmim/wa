@@ -8,15 +8,15 @@
 <style>
     #canvas-left {
         position: absolute;
-        left: 0px;
-        top: 0px;
+        left: 0;
+        top: 0;
         width: 50%;
         height: 100%;
     }
     #canvas-right {
         position: absolute;
-        right: 0px;
-        top: 0px;
+        right: 0;
+        top: 0;
         width: 50%;
         height: 100%;
     }
@@ -34,7 +34,6 @@
     const video = document.createElement('video');
     video.autoplay = true;
 
-    // Используем facingMode, чтобы всегда использовать основную камеру (не фронтальную)
     navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
         .then(function (stream) {
             video.srcObject = stream;
@@ -44,20 +43,20 @@
         });
 
     video.onloadedmetadata = function (e) {
-        canvasLeft.width = video.videoWidth;
-        canvasLeft.height = video.videoHeight;
-        canvasRight.width = video.videoWidth;
-        canvasRight.height = video.videoHeight;
-       
+        canvasLeft.width = canvasRight.width = video.videoWidth;
+        canvasLeft.height = canvasRight.height = video.videoHeight;
+        drawFrames();
     };
-    window.addEventListener("load",()=>setInterval(drawFrames,1))
 
     function drawFrames() {
+        // Очищаем канвас перед каждой отрисовкой
+        contextLeft.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
+        contextRight.clearRect(0, 0, canvasRight.width, canvasRight.height);
+        
         contextLeft.drawImage(video, 0, 0, canvasLeft.width, canvasLeft.height);
         contextRight.drawImage(video, 0, 0, canvasRight.width, canvasRight.height);
-        
+        requestAnimationFrame(drawFrames);
     };
-    
 </script>
 </body>
 </html>

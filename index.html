@@ -1,16 +1,44 @@
 <!DOCTYPE html>
 <html>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+    
 <body>
+<style>
 
+
+#video {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 50%;
+        height: 100%;
+    }
+    #video2 {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 50%;
+        height: 100%;
+    }
+</style>
+    
 <video autoplay id="video"></video>
+<video autoplay id="video2"></video>
 
 <script>
 var video = document.querySelector("#video");
+var video2 = document.querySelector("#video2");
 
 if (navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } },{ video2: { facingMode: "user" } })
     .then(function (stream) {
       video.srcObject = stream;
+      video2.srcObject = stream;
     })
     .catch(function (err0r) {
       console.log("Something went wrong!");

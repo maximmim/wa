@@ -34,7 +34,7 @@ body {
   position: fixed;
     bottom: 10%;
     left: 70%;
-
+display:none;
     width: 100px;
     height: 40px;
     color: black;
@@ -53,7 +53,7 @@ video::-webkit-media-controls {
 #cide {
     position: absolute;
     right: 1%;
-    top: 20%;
+    top: 30%;
     width: 260px;
     height: 170px;
 }
@@ -68,9 +68,7 @@ video::-webkit-media-controls {
 <video autoplay muted playsinline id="video"></video>
 <video autoplay muted playsinline id="video2"></video>
 
-
-<iframe id="cide" src="https://www.youtube-nocookie.com/embed/uuzu2QxjMZ4?si=g4-jdOca5JyQ5aIr&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ></iframe>
-
+<iframe id="cide" src="https://www.youtube-nocookie.com/embed/uuzu2QxjMZ4?si=g4-jdOca5JyQ5aIr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 <script>
 var video = document.querySelector("#video");
 var video2 = document.querySelector("#video2");

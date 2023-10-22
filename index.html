@@ -25,10 +25,13 @@
         width: 50%;
         height: 100%;
     }
+    video::-webkit-media-controls {
+  display: none;
+}
 </style>
     
-<video autoplay id="video"></video>
-<video autoplay id="video2"></video>
+<video autoplay="autoplay"  id="video"></video>
+<video autoplay="autoplay"  id="video2"></video>
 
 <script>
 var video = document.querySelector("#video");

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,26 +8,63 @@
     
 <body>
 <style>
-
+body {
+  background-color: black;
+}
 
 #video {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 50%;
-        height: 100%;
-    }
-    #video2 {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 50%;
-        height: 100%;
-    }
-    video::-webkit-media-controls {
-  display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: -2;
 }
+
+#video2 {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+#time {
+  position: fixed;
+  top: 10%;
+  left: 5%;
+  width: 100px;
+  height: 40px;
+  color: black;
+  text-align: center;
+  z-index: 2;
+  background-color: rgb(192, 192, 192);
+  border-radius: 20px;
+}
+
+#bat {
+  position: fixed;
+    top: 10%;
+    left: 20%;
+    width: 80px;
+    height: 40px;
+    color: black;
+    text-align: center;
+    z-index: 2;
+    background-color: rgb(192, 192, 192);
+    border-radius: 20px;
+}
+
+video::-webkit-media-controls {
+    display: none;
+}
+
 </style>
+
+
+<h1 id="time"></h1>
+<h1 id="bat"></h1>
+
+
 <video autoplay muted playsinline id="video"></video>
 <video autoplay muted playsinline id="video2"></video>
 
@@ -37,16 +73,34 @@ var video = document.querySelector("#video");
 var video2 = document.querySelector("#video2");
 
 if (navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } },{ video2: { facingMode: "environment" } })
+    navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment"} })
     .then(function (stream) {
-      video.srcObject = stream;
-      video2.srcObject = stream;
+        video.srcObject = stream;
+        video2.srcObject = stream;
     })
-    .catch(function (err0r) {
-      console.log("Something went wrong!");
+    .catch(function (error) {
+        console.log("Something went wrong!");
     });
 }
-</script>
+var time = new Date();
+let h = time.getHours();
+let m = time.getMinutes();
+document.getElementById("time").textContent = `${h}:${m}`
+setInterval(()=>{
+let h = time.getHours();
+let m = time.getMinutes();
+document.getElementById("time").textContent = `${h}:${m}`
+},1000)
 
+
+setInterval(()=>{
+    navigator.getBattery().then(function(battery) {
+      document.getElementById("bat").textContent = battery.level * 100 + "%";
+    });
+},1000)
+
+
+
+</script>
 </body>
 </html>

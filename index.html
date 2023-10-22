@@ -1,51 +1,57 @@
 <!DOCTYPE html>
 <html>
-    
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-    
 <body>
+
+<video id="video" autoplay style="display:none;"></video>
+<canvas id="canvas1"></canvas>
+<canvas id="canvas2"></canvas>
 <style>
-
-
-#video {
+    
+#canvas1 {
         position: absolute;
         left: 0;
         top: 0;
         width: 50%;
         height: 100%;
     }
-    #video2 {
+    #canvas2 {
         position: absolute;
         right: 0;
         top: 0;
         width: 50%;
         height: 100%;
     }
-    video::-webkit-media-controls {
-  display: none;
-}
 </style>
-    
-<video autoplay="autoplay"  id="video"></video>
-<video autoplay="autoplay"  id="video2"></video>
-
 <script>
 var video = document.querySelector("#video");
-var video2 = document.querySelector("#video2");
+var canvas1 = document.querySelector("#canvas1");
+var canvas2 = document.querySelector("#canvas2");
+var context1 = canvas1.getContext('2d');
+var context2 = canvas2.getContext('2d');
 
 if (navigator.mediaDevices.getUserMedia) {
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } },{ video2: { facingMode: "user" } })
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } })
     .then(function (stream) {
       video.srcObject = stream;
-      video2.srcObject = stream;
+      video.onplay = function() {
+        drawVideo();
+      }
     })
     .catch(function (err0r) {
       console.log("Something went wrong!");
     });
+}
+
+function drawVideo() {
+  canvas1.width = video.videoWidth;
+  canvas1.height = video.videoHeight;
+  context1.drawImage(video, 0, 0, canvas1.width, canvas1.height);
+
+  canvas2.width = video.videoWidth;
+  canvas2.height = video.videoHeight;
+  context2.drawImage(video, 0, 0, canvas2.width, canvas2.height);
+
+  requestAnimationFrame(drawVideo);
 }
 </script>
 

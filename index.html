@@ -33,7 +33,7 @@ body {
 #time {
   position: fixed;
     bottom: 10%;
-    left: 65%;
+    left: 70%;
 
     width: 100px;
     height: 40px;
@@ -74,14 +74,13 @@ if (navigator.mediaDevices.getUserMedia) {
     });
 }
 var time = new Date();
-let h = time.getHours();
-let m = time.getMinutes();
-document.getElementById("time").textContent = `${h}:${m}`
+document.getElementById("time").textContent = `${time.getHours()}:${time.getMinutes()}`
 setInterval(()=>{
+  var time = new Date();
 let h = time.getHours();
 let m = time.getMinutes();
 document.getElementById("time").textContent = `${h}:${m}`
-},1000)
+},1)
 
 
 
